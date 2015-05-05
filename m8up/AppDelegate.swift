@@ -13,35 +13,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
     
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: NSDictionary!) -> Bool {
+    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
         Parse.setApplicationId("9ObgCCTon8tb8YumP5i5ZterEwtvXD2eJsxyaZ7Z", clientKey: "O0rPPY0gjywxokmE4grHdEQJVTfufJB2Ki5G4tuI")
         
         PFFacebookUtils.initializeFacebook()
         
-        var pushSettings: UIUserNotificationSettings = UIUserNotificationSettings(forTypes: .Alert, categories: nil)
+        let userNotificationTypes = (UIUserNotificationType.Alert |
+            UIUserNotificationType.Badge |
+            UIUserNotificationType.Sound);
         
-        application.registerUserNotificationSettings(pushSettings)
+        let settings = UIUserNotificationSettings(forTypes: userNotificationTypes, categories: nil)
+        
+        application.registerUserNotificationSettings(settings)
         
         application.registerForRemoteNotifications()
         
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
         
-        //experiment
-        
-        if PFUser.currentUser() != nil {
+        if currentUser() != nil {
             
             //http://stackoverflow.com/questions/19962276/best-practices-for-storyboard-login-screen-handling-clearing-of-data-upon-logou
             
-            self.window?.rootViewController = ((UIStoryboard(name: "Main", bundle: NSBundle .mainBundle()).instantiateInitialViewController()) as UIViewController)
+            self.window?.rootViewController = ((UIStoryboard(name: "Main", bundle: NSBundle .mainBundle()).instantiateInitialViewController()) as! UIViewController)
         }
             
         else {
             
             //http://stackoverflow.com/questions/19962276/best-practices-for-storyboard-login-screen-handling-clearing-of-data-upon-logou
             
-            let rootController:UIViewController = ((UIStoryboard(name: "Main", bundle: NSBundle .mainBundle()).instantiateViewControllerWithIdentifier("main")) as UIViewController)
+            let rootController:UIViewController = ((UIStoryboard(name: "Main", bundle: NSBundle .mainBundle()).instantiateViewControllerWithIdentifier("main")) as! UIViewController)
             let navigationController:UINavigationController = (UINavigationController(rootViewController: rootController))
             navigationController.navigationBar.hidden = true
             
@@ -51,8 +53,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
-    func application(application: UIApplication!, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-        
+    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+        let installation = PFInstallation.currentInstallation()
+        installation.setDeviceTokenFromData(deviceToken)
+        installation.saveInBackgroundWithBlock(nil)
         println("Success")
         
     }
@@ -61,6 +65,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         println("Fail!")
         
+    }
+    
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+        PFPush.handlePush(userInfo)
     }
     
     func applicationWillResignActive(application: UIApplication) {
@@ -79,11 +87,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        PFFacebookUtils.session().close()
+        
     }
     
     func application(application: UIApplication,
         openURL url: NSURL,
-        sourceApplication: String,
+        sourceApplication: String?,
         annotation: AnyObject?) -> Bool {
             return FBAppCall.handleOpenURL(url, sourceApplication:sourceApplication,
                 withSession:PFFacebookUtils.session())

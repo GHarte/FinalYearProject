@@ -41,7 +41,7 @@ class MyTabBarController: UITabBarController {
         
         UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: myColour], forState:.Selected)
         
-        for item in self.tabBar.items as [UITabBarItem] {
+        for item in self.tabBar.items as! [UITabBarItem] {
             if let image = item.image {
                 item.selectedImage = image.imageWithColor(myColour).imageWithRenderingMode(.AlwaysOriginal)
             }

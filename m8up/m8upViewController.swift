@@ -8,7 +8,23 @@
 
 import UIKit
 
-class m8upViewController: UIViewController {
+class m8upViewController: UIViewController, SwipeViewDelegate {
+    
+    struct Card {
+        let cardView: CardView
+        let swipeView: SwipeView
+        let user: User
+    }
+
+    let frontCardTopMargin: CGFloat = 0
+    let backCardTopMargin: CGFloat = 10
+    
+    @IBOutlet weak var cardStackView: UIView!
+    
+    var backCard: Card?
+    var frontCard: Card?
+    
+    var users: [User]?
     
     @IBOutlet weak var m8upButton: UIButton!
     @IBOutlet weak var m8downButton: UIButton!
@@ -18,27 +34,97 @@ class m8upViewController: UIViewController {
     
     var usernames = [String]()
     var userImages = [NSData]()
+    var firstnames = [String]()
     var currentUser = 0
-    
-    var m8ImageView = UIImageView()
     
     var yFromCenter: CGFloat = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        loadUsersForSwipe()
+        cardStackView.backgroundColor = UIColor.clearColor()
+        
+        m8downButton.setImage(UIImage(named: "nah-button-pressed"), forState: UIControlState.Highlighted)
+        m8upButton.setImage(UIImage(named: "yeah-button-pressed"), forState: UIControlState.Highlighted)
+        
+        fetchUnviewedUsers({
+            returnedUsers in
+            self.users = returnedUsers
+            
+            if let card = self.popCard() {
+                self.frontCard = card
+                self.cardStackView.addSubview(self.frontCard!.swipeView)
+            }
+            
+            if let card = self.popCard() {
+                self.backCard = card
+                self.backCard!.swipeView.frame = self.createCardFrame(self.backCardTopMargin)
+                self.cardStackView.insertSubview(self.backCard!.swipeView, belowSubview: self.frontCard!.swipeView)
+            }
+            
+        })
+    
+    }
+    
+    private func createCardFrame(topMargin: CGFloat) -> CGRect {
+        return CGRect(x: 0, y: topMargin, width: cardStackView.frame.width, height: cardStackView.frame.height)
+    }
+    
+    private func createCard(user: User) -> Card {
+        let cardView = CardView()
+        cardView.name = user.name
+        user.getPhoto({
+            image in
+            cardView.image = image
+        })
         
         
-        //        addDummyUser("http://img2.wikia.nocookie.net/__cb20120728075452/crashban/images/e/eb/Coco.JPG")
-        //        addDummyUser("http://img2.timeinc.net/people/i/2012/database/120312/jennifer-lawrence-300.jpg")
-        //        addDummyUser("http://media.tumblr.com/9ecabe989142c8ec0c99992d535b277c/tumblr_inline_ms9xajqGOi1qz4rgp.jpg")
-        //        addDummyUser("http://iv1.lisimg.com/image/3840525/600full-iain-glen.jpg")
-        //        addDummyUser("http://image-cdn.zap2it.com/images/andy-samberg-bbc-cuckoo-gi.jpg")
-        //        addDummyUser("http://media.alistdaily.com/editorial/2013/05/Jon-Snow-S3.jpg")
+        let swipeView = SwipeView(frame: createCardFrame(0))
+        swipeView.delegate = self
+        swipeView.innerView = cardView
+        return Card(cardView: cardView, swipeView: swipeView, user: user)
+    }
+    
+    private func popCard() -> Card? {
+        if users != nil && users?.count > 0 {
+            return createCard(users!.removeLast())
+        }
+        return nil
+    }
+    
+    private func switchCards() {
+        if let card = backCard {
+            frontCard = card
+            UIView.animateWithDuration(0.2, animations: {
+                self.frontCard!.swipeView.frame = self.createCardFrame(self.frontCardTopMargin)
+            })
+        }
         
-        // Do any additional setup after loading the view.
-        
+        if let card = self.popCard() {
+            self.backCard = card
+            self.backCard!.swipeView.frame = self.createCardFrame(self.backCardTopMargin)
+            self.cardStackView.insertSubview(self.backCard!.swipeView, belowSubview: self.frontCard!.swipeView)
+        }
+    }
+    
+    // MARK: - SwipeViewDelegate
+    
+    func swipedLeft() {
+        println("left")
+        if let frontCard = frontCard {
+            frontCard.swipeView.removeFromSuperview()
+            saveSkip(frontCard.user)
+            switchCards()
+        }
+    }
+    
+    func swipedRight() {
+        println("right")
+        if let frontCard = frontCard {
+            frontCard.swipeView.removeFromSuperview()
+            saveLike(frontCard.user)
+            switchCards()
+        }
     }
     
     
@@ -105,149 +191,131 @@ class m8upViewController: UIViewController {
                         if PFUser.currentUser().username != user.username {
                             
                             self.usernames.append(user.username)
-                            self.userImages.append(user["image"] as NSData)
+                            self.userImages.append(user["image"] as! NSData)
+                            self.firstnames.append(user["firstname"] as! NSString as String)
                             
                         }
                         
                     }
                     
                     var userPic = UIImage(data: self.userImages[0])
+                    var username = NSString(string: self.firstnames[0])
                     
-                    self.presentUserImage(userPic!)
+                //    self.presentUserImage(userPic!, name: username)
+                    
+//                    self.swipeView.imageView.image = userPic
+//                    
+//                    self.view.addSubview(self.swipeView)
                     
                 })
                 
-                user.saveInBackgroundWithTarget(user, selector: nil)
+                user.saveInBackgroundWithBlock { (success: Bool, error: NSError!) -> Void in
+                    if error != nil{
+                        //ProgressHUD.showError("Network error")
+                    }
+                }
                 
             }
             
         }
         
     }
+//    
+//    // MARK: - Create User Image
+//    func presentUserImage(pic: UIImage, name:NSString) {
+//        
+//        //Remove the current image from superview code moved due to bug
+//        
+//        m8ImageView = UIImageView(frame: CGRectMake(0, 0, self.view.frame.width, self.view.frame.width))
+//        m8ImageView.backgroundColor = UIColor.blackColor()
+//        m8ImageView.image = pic
+//        m8ImageView.contentMode = UIViewContentMode.ScaleAspectFit
+//        self.view.addSubview(m8ImageView)
+//        
+//        var gesture = UIPanGestureRecognizer(target: self, action: Selector("wasDragged:"))
+//        m8ImageView.addGestureRecognizer(gesture)
+//        
+//        m8ImageView.userInteractionEnabled = true
+//        
+//        userNameLabel.text = name as String
+//        
+//    }
     
-    // MARK: - Create User Image
-    func presentUserImage(pic: UIImage) {
-        
-        //Remove the current image from superview code moved due to bug
-        
-        m8ImageView = UIImageView(frame: CGRectMake(0, 0, self.view.frame.width, self.view.frame.width))
-        m8ImageView.backgroundColor = UIColor.blackColor()
-        m8ImageView.image = pic
-        m8ImageView.contentMode = UIViewContentMode.ScaleAspectFit
-        self.view.addSubview(m8ImageView)
-        
-        var gesture = UIPanGestureRecognizer(target: self, action: Selector("wasDragged:"))
-        m8ImageView.addGestureRecognizer(gesture)
-        
-        m8ImageView.userInteractionEnabled = true
-        
-    }
-    
-    // MARK: - Swipe Gesture
-    func wasDragged(gesture: UIPanGestureRecognizer) {
-        
-        let translation = gesture.translationInView(self.view)
-        
-        yFromCenter += translation.y
-        
-        m8ImageView.center = CGPoint(x: m8ImageView.center.x, y: m8ImageView.center.y + translation.y)
-        
-        gesture.setTranslation(CGPointZero, inView: self.view)
-        
-        var scale = min(100 / abs(yFromCenter), 10)
-        var stretch: CGAffineTransform
-        
-        if (translation.y <= 0) {
-            stretch = CGAffineTransformMakeScale(scale, scale)
-        }
-            
-        else {
-            stretch = CGAffineTransformMakeScale(2, scale)
-        }
-        
-        m8ImageView.transform = stretch
-        
-        if gesture.state == UIGestureRecognizerState.Ended {
-            
-            if (m8ImageView.center.y < self.view.bounds.height / 2 ) {
-                println("m8up")
-                self.currentUser++
-                m8ImageView.removeFromSuperview()
-            }
-            else if (m8ImageView.center.y > self.view.bounds.height / 2 ) {
-                println("m8down")
-                self.currentUser++
-                m8ImageView.removeFromSuperview()
-            }
-            
-            // get next user every swipe
-            
-            if self.currentUser < self.userImages.count {
-                
-                var nextUserPic: UIImage = UIImage(data: self.userImages[self.currentUser])!
-                
-                presentUserImage(nextUserPic)
-                
-                yFromCenter = 0
-                
-            }
-            else {
-                
-                var alert = UIAlertView(title: "No One Nearby", message: "There is nobody new nearby, please try again later", delegate: self, cancelButtonTitle: "Ok")
-                alert.show()
-                
-            }
-        }
-    }
-    
+//    // MARK: - Swipe Gesture
+//    func wasDragged(gesture: UIPanGestureRecognizer) {
+//        
+//        let translation = gesture.translationInView(self.view)
+//        
+//        yFromCenter += translation.y
+//        
+//        m8ImageView.center = CGPoint(x: m8ImageView.center.x, y: m8ImageView.center.y + translation.y)
+//        
+//        gesture.setTranslation(CGPointZero, inView: self.view)
+//        
+//        var scale = min(100 / abs(yFromCenter), 10)
+//        var stretch: CGAffineTransform
+//        
+//        if (translation.y <= 0) {
+//            stretch = CGAffineTransformMakeScale(scale, scale)
+//        }
+//            
+//        else {
+//            stretch = CGAffineTransformMakeScale(2, scale)
+//        }
+//        
+//        m8ImageView.transform = stretch
+//        
+//        if gesture.state == UIGestureRecognizerState.Ended {
+//            
+//            if (m8ImageView.center.y < self.view.bounds.height / 2 ) {
+//                println("m8up")
+//                self.currentUser++
+//                m8ImageView.removeFromSuperview()
+//            }
+//            else if (m8ImageView.center.y > self.view.bounds.height / 2 ) {
+//                println("m8down")
+//                self.currentUser++
+//                m8ImageView.removeFromSuperview()
+//            }
+//            
+//            // get next user every swipe
+//            
+//            if self.currentUser < self.userImages.count {
+//                
+//                var nextUserPic: UIImage = UIImage(data: self.userImages[self.currentUser])!
+//                var nextUserName: NSString = NSString(UTF8String: self.firstnames[self.currentUser])!
+//                
+//                presentUserImage(nextUserPic, name: nextUserName)
+//                
+//                yFromCenter = 0
+//                
+//            }
+//            else {
+//                
+//                var alert = UIAlertView(title: "No One Nearby", message: "There is nobody new nearby, please try again later", delegate: self, cancelButtonTitle: "Ok")
+//                alert.show()
+//                
+//            }
+//        }
+//    }
+//    
     // MARK: - IBActions
     
     @IBAction func m8upButtonPressed(sender: UIButton) {
         
-        //Animate this like the swipe gesture
-        
-        self.currentUser++
-        m8ImageView.removeFromSuperview()
-        
-        if self.currentUser < self.userImages.count {
+        if let card = frontCard {
             
-            var nextUserPic: UIImage = UIImage(data: self.userImages[self.currentUser])!
-            
-            presentUserImage(nextUserPic)
-            
-            println("m8up")
+            card.swipeView.swipe(SwipeView.Direction.Right)
             
         }
-        else {
-            
-            var alert = UIAlertView(title: "No One Nearby", message: "There is nobody new nearby, please try again later", delegate: self, cancelButtonTitle: "Ok")
-            alert.show()
-            
-        }
+      
         
     }
     
     @IBAction func m8downButtonPressed(sender: UIButton) {
         
-        //Animate this like the swipe gesture
-        
-        self.currentUser++
-        m8ImageView.removeFromSuperview()
-        
-        if self.currentUser < self.userImages.count {
-            
-            var nextUserPic: UIImage = UIImage(data: self.userImages[self.currentUser])!
-            
-            presentUserImage(nextUserPic)
-            
-            println("m8down")
-            
-        }
-        else {
-            
-            var alert = UIAlertView(title: "No One Nearby", message: "There is nobody new nearby, please try again later", delegate: self, cancelButtonTitle: "Ok")
-            alert.show()
-            
+        if let card = frontCard {
+            card.swipeView.swipe(SwipeView.Direction.Left)
         }
         
     }

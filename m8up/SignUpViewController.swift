@@ -41,7 +41,11 @@ class SignUpViewController: UIViewController {
             
             user["image"] = data
             
-            user.saveInBackgroundWithTarget(user, selector: nil)
+            user.saveInBackgroundWithBlock { (success: Bool, error: NSError!) -> Void in
+                if error != nil{
+                    //ProgressHUD.showError("Network error")
+                }
+            }
             
             FBRequestConnection.startForMeWithCompletionHandler({
                 connection, result, error in
@@ -49,11 +53,35 @@ class SignUpViewController: UIViewController {
                 user["gender"] = result["gender"]
                 user["name"] = result["name"]
                 
-                user.saveInBackgroundWithTarget(user, selector: nil)
+                //get first name
+                let name: AnyObject! = result["name"]
+                let nameString = "\(name)" as NSString
+                
+                var range = nameString.rangeOfString(" ")
+                var locationInString = range.location
+                
+                let firstname: NSString = nameString.substringToIndex(locationInString)
+                user["firstname"] = firstname
+                
+                //profile set up 
+                user["job"] = ""
+                user["town"] = ""
+                user["tvshows"] = ""
+                user["movies"] = ""
+                user["sports"] = ""
+                user["videogames"] = ""
+                user["music"] = ""
+                user["books"] = ""
+                
+                user.saveInBackgroundWithBlock { (success: Bool, error: NSError!) -> Void in
+                    if error != nil{
+                        //ProgressHUD.showError("Network error")
+                    }
+                }
                 
                 // println(result)
                 
-                let name: AnyObject! = user["name"]
+                let name2: AnyObject! = user["name"]
                 
                 self.nameLabel.text = "\(name)"
                 self.nameLabel.alpha = 1
@@ -66,9 +94,9 @@ class SignUpViewController: UIViewController {
     
     @IBAction func submitButtonPressed(sender: AnyObject) {
         
-        let appDelegate: AppDelegate = (UIApplication.sharedApplication()).delegate as AppDelegate
+        let appDelegate: AppDelegate = (UIApplication.sharedApplication()).delegate as! AppDelegate
         
-        appDelegate.window?.rootViewController = ((UIStoryboard(name: "Main", bundle: NSBundle .mainBundle()).instantiateInitialViewController()) as UIViewController)
+        appDelegate.window?.rootViewController = ((UIStoryboard(name: "Main", bundle: NSBundle .mainBundle()).instantiateInitialViewController()) as! UIViewController)
         
     }
     
