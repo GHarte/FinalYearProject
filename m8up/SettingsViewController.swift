@@ -23,25 +23,26 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        var user = PFUser.currentUser()
-        var picData = (user["image"] as! NSData)
-        var userPic = UIImage(data: picData)
-        profilePicImageView.image = userPic
+        currentUser()?.getPhoto({
+            image in
+            self.profilePicImageView.image = image
+            self.profilePicImageView.layer.cornerRadius = self.profilePicImageView.frame.size.width / 2
+            self.profilePicImageView.clipsToBounds = true
+            self.profilePicImageView.layer.borderWidth = 5.0
+            self.profilePicImageView.layer.borderColor = UIColor.lightGrayColor().CGColor
+        })
         
-        profilePicImageView.layer.cornerRadius = self.profilePicImageView.frame.size.width / 2
-        profilePicImageView.clipsToBounds = true
-        profilePicImageView.layer.borderWidth = 3.0
-        profilePicImageView.layer.borderColor = UIColor.whiteColor().CGColor
+       
+//        
+//        let firstname: AnyObject! = user["firstname"]
+//        let firstnameString = "\(firstname)" as NSString
         
-        let firstname: AnyObject! = user["firstname"]
-        let firstnameString = "\(firstname)" as NSString
+        userNameLabel.text = currentUser()?.name
         
-        userNameLabel.text = firstnameString as String
-        
-        let job: AnyObject! = user["job"];
-        let jobString = "\(job)" as NSString
-        
-        userJobLabel.text = jobString as String
+//        let job: AnyObject! = user["job"];
+//        let jobString = "\(job)" as NSString
+//        
+//        userJobLabel.text = jobString as String
         
         
     }

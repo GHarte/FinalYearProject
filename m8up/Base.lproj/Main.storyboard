@@ -56,7 +56,7 @@
             </objects>
             <point key="canvasLocation" x="387" y="-219"/>
         </scene>
-        <!--Matches Table View Controller-->
+        <!--Chat-->
         <scene sceneID="7yG-ti-w0R">
             <objects>
                 <tableViewController id="ZVS-SJ-YYd" customClass="MatchesTableViewController" customModule="m8up" customModuleProvider="target" sceneMemberID="viewController">
@@ -103,7 +103,7 @@
                             <outlet property="delegate" destination="ZVS-SJ-YYd" id="hAp-mp-9hu"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="k9r-kF-zUa"/>
+                    <navigationItem key="navigationItem" title="Chat" id="k9r-kF-zUa"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h4T-ok-Mhg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -143,7 +143,7 @@
                         <viewControllerLayoutGuide type="bottom" id="VXx-eT-MFz"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Ipg-Og-lmc">
-                        <rect key="frame" x="0.0" y="64" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Age Range:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hHi-w3-FWS">
@@ -346,7 +346,7 @@
                         <viewControllerLayoutGuide type="bottom" id="YoN-Yl-5WQ"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="wzM-Ps-CI0">
-                        <rect key="frame" x="0.0" y="64" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pP9-ZV-9gc">
@@ -408,6 +408,15 @@
                                     <action selector="logoutButtonPressed:" destination="dS6-cr-QTM" eventType="touchUpInside" id="jON-1E-5Vs"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tEA-Bu-Fev">
+                                <rect key="frame" x="139" y="165" width="79" height="30"/>
+                                <state key="normal" title="View profile">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="ukT-DL-B4O" kind="show" id="VEW-wl-z5l"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -435,7 +444,7 @@
                         <viewControllerLayoutGuide type="bottom" id="Vey-jo-9Qn"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="X5T-Ap-ObT">
-                        <rect key="frame" x="0.0" y="64" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8YV-bD-VQd">
@@ -618,7 +627,7 @@
             </objects>
             <point key="canvasLocation" x="896" y="-540"/>
         </scene>
-        <!--Profile View Controller-->
+        <!--name-->
         <scene sceneID="vTa-Zh-EZp">
             <objects>
                 <viewController storyboardIdentifier="profileVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ukT-DL-B4O" customClass="ProfileViewController" customModule="m8up" customModuleProvider="target" sceneMemberID="viewController">
@@ -627,7 +636,7 @@
                         <viewControllerLayoutGuide type="bottom" id="0e7-jz-JB0"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="isd-Mo-Buq">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="user F 2" translatesAutoresizingMaskIntoConstraints="NO" id="N7m-ys-vzs">
@@ -642,9 +651,11 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" title="name" id="sRA-tc-ntY"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <outlet property="profileImageView" destination="N7m-ys-vzs" id="iAr-m1-GH8"/>
+                        <outlet property="titleNavItem" destination="sRA-tc-ntY" id="xeo-X3-Cpd"/>
                         <outlet property="usernameLabel" destination="4cF-gA-3fJ" id="m3G-ih-eXU"/>
                     </connections>
                 </viewController>
@@ -661,7 +672,7 @@
                         <viewControllerLayoutGuide type="bottom" id="7fC-3e-mRT"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="eZX-BD-8XS">
-                        <rect key="frame" x="0.0" y="64" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UH8-BK-vtc">
@@ -674,7 +685,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="m8upButtonPressed:" destination="17p-ec-c3V" eventType="touchUpInside" id="jAy-GN-TLU"/>
+                                    <action selector="m8downButtonPressed:" destination="17p-ec-c3V" eventType="touchUpInside" id="uHL-N4-r6d"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yY9-29-VyP">
@@ -687,19 +698,33 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="m8downButtonPressed:" destination="17p-ec-c3V" eventType="touchUpInside" id="Zdw-TH-CNs"/>
+                                    <action selector="m8upButtonPressed:" destination="17p-ec-c3V" eventType="touchUpInside" id="aN2-ON-Zui"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Username" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4qE-3N-mSc">
-                                <rect key="frame" x="114" y="374" width="93" height="21"/>
+                                <rect key="frame" x="114" y="306" width="93" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9mB-Xe-khf">
                                 <rect key="frame" x="35" y="48" width="250" height="250"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="There is nobody new nearby, check back later!" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GtN-ed-PIp">
+                                        <rect key="frame" x="13" y="84" width="225" height="82"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.42745098039215684" green="0.26666666666666666" blue="0.58039215686274515" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="distance in km" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F9k-iR-4Kq">
+                                <rect key="frame" x="35" y="323" width="250" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -720,8 +745,10 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <outlet property="cardStackView" destination="9mB-Xe-khf" id="gnr-2s-0YC"/>
-                        <outlet property="m8downButton" destination="yY9-29-VyP" id="WsX-T1-QzE"/>
-                        <outlet property="m8upButton" destination="UH8-BK-vtc" id="rLx-oM-o1x"/>
+                        <outlet property="distanceToUserLabel" destination="F9k-iR-4Kq" id="nW1-Nr-Q2e"/>
+                        <outlet property="m8downButton" destination="UH8-BK-vtc" id="pZN-Vl-3Z7"/>
+                        <outlet property="m8upButton" destination="yY9-29-VyP" id="KyA-AN-tjG"/>
+                        <outlet property="noUserLabel" destination="GtN-ed-PIp" id="D48-fa-tgs"/>
                         <outlet property="userNameLabel" destination="4qE-3N-mSc" id="RKD-HK-0me"/>
                     </connections>
                 </viewController>
@@ -827,18 +854,18 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="Dcf-mh-JOT" kind="relationship" relationship="rootViewController" id="168-xx-Nfh"/>
+                        <segue destination="17p-ec-c3V" kind="relationship" relationship="rootViewController" id="QSk-ov-MAM"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IE0-rB-yU5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="924" y="153"/>
         </scene>
-        <!--Messages-->
+        <!--Chat-->
         <scene sceneID="qBh-r2-Dmf">
             <objects>
                 <navigationController storyboardIdentifier="MatchesNavController" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="7j4-8f-lvN" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Messages" image="comment F" id="acd-27-sGZ"/>
+                    <tabBarItem key="tabBarItem" title="Chat" image="chat-header" id="acd-27-sGZ"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="fzb-A8-66r">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -966,7 +993,7 @@
         <image name=" " width="274" height="3"/>
         <image name="ProfileLine" width="274" height="3"/>
         <image name="building F" width="27" height="25"/>
-        <image name="comment F" width="25" height="21"/>
+        <image name="chat-header" width="29" height="23"/>
         <image name="fblogin.png" width="202" height="46"/>
         <image name="micro F" width="13" height="25"/>
         <image name="nah-button" width="75" height="75"/>

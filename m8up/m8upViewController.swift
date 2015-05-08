@@ -15,7 +15,7 @@ class m8upViewController: UIViewController, SwipeViewDelegate {
         let swipeView: SwipeView
         let user: User
     }
-
+    
     let frontCardTopMargin: CGFloat = 0
     let backCardTopMargin: CGFloat = 10
     
@@ -29,6 +29,10 @@ class m8upViewController: UIViewController, SwipeViewDelegate {
     @IBOutlet weak var m8upButton: UIButton!
     @IBOutlet weak var m8downButton: UIButton!
     @IBOutlet weak var userNameLabel: UILabel!
+    @IBOutlet weak var noUserLabel: UILabel!
+    @IBOutlet weak var distanceToUserLabel: UILabel!
+    
+    
     
     var i = 10
     
@@ -39,6 +43,18 @@ class m8upViewController: UIViewController, SwipeViewDelegate {
         
         m8downButton.setImage(UIImage(named: "nah-button-pressed"), forState: UIControlState.Highlighted)
         m8upButton.setImage(UIImage(named: "yeah-button-pressed"), forState: UIControlState.Highlighted)
+        
+        
+        //get current location every time app is re launched
+        
+        PFGeoPoint.geoPointForCurrentLocationInBackground { (geoPoint: PFGeoPoint!, error: NSError!) -> Void in
+            
+            if error == nil {
+                println(geoPoint)
+                user["location"] = geoPoint
+                user.saveInBackgroundWithBlock(nil)
+            }
+        }
         
         fetchUnviewedUsers({
             returnedUsers in
@@ -58,10 +74,26 @@ class m8upViewController: UIViewController, SwipeViewDelegate {
             //update name label
             self.userNameLabel.text = self.frontCard?.user.name
             
+            //distance test
+            if let kilometers = self.frontCard?.user.currentLocation.distanceInKilometersTo(currentUser()?.currentLocation){
+            let distanceToUser = String(format: "%.1fkm away", kilometers)
+            self.distanceToUserLabel.text = distanceToUser
+            }
+            
+            else {
+                self.distanceToUserLabel.hidden = true
+            }
+            
+            
         })
         
+        //self.checkRemainingUsers()
         
+    }
     
+    override func viewWillAppear(animated: Bool) {
+        
+        
     }
     
     private func createCardFrame(topMargin: CGFloat) -> CGRect {
@@ -91,6 +123,8 @@ class m8upViewController: UIViewController, SwipeViewDelegate {
     }
     
     private func switchCards() {
+        
+        //if a back card exists, move it to the front
         if let card = backCard {
             frontCard = card
             UIView.animateWithDuration(0.2, animations: {
@@ -99,6 +133,12 @@ class m8upViewController: UIViewController, SwipeViewDelegate {
                 //update name label
                 self.userNameLabel.text = self.frontCard?.user.name
                 
+                //distance test
+                if let kilometers = self.frontCard?.user.currentLocation.distanceInKilometersTo(currentUser()?.currentLocation){
+                    let distanceToUser = String(format: "%.1f km away", kilometers)
+                    self.distanceToUserLabel.text = distanceToUser
+                }
+                
             })
         }
         
@@ -106,6 +146,23 @@ class m8upViewController: UIViewController, SwipeViewDelegate {
             self.backCard = card
             self.backCard!.swipeView.frame = self.createCardFrame(self.backCardTopMargin)
             self.cardStackView.insertSubview(self.backCard!.swipeView, belowSubview: self.frontCard!.swipeView)
+        }
+        
+       
+        
+    }
+    
+    func checkRemainingUsers() {
+        if users?.count == 0 {
+            println("no users left")
+            userNameLabel.hidden = true
+            noUserLabel.hidden = false
+            distanceToUserLabel.hidden = true
+        }
+        else if users?.count > 0 {
+            userNameLabel.hidden = false
+            noUserLabel.hidden = true
+            distanceToUserLabel.hidden = false
         }
     }
     
@@ -129,57 +186,6 @@ class m8upViewController: UIViewController, SwipeViewDelegate {
         }
     }
     
-    // MARK: - Load Users
-    func loadUsersForSwipe() {
-        
-        PFGeoPoint.geoPointForCurrentLocationInBackground { (geoPoint: PFGeoPoint!, error: NSError!) -> Void in
-            
-            if error == nil {
-                
-                println(geoPoint)
-                
-                var user = PFUser.currentUser()
-                
-                user["location"] = geoPoint
-                
-                // Get nearby users
-                
-                // Create a query for users
-                var query = PFUser.query()
-                // Interested in locations near user.
-                query.whereKey("location", nearGeoPoint:geoPoint)
-                // Limit what could be a lot of points.
-                query.limit = 10
-                query.findObjectsInBackgroundWithBlock({ (users, error) -> Void in
-                    
-                    for user in users {
-                        
-                        // Stop user from seeing themselves
-                        if PFUser.currentUser().username != user.username {
-                            
-                            
-                            
-                        }
-                        
-                    }
-                    
-                
-                    
-               
-                    
-                })
-                
-                user.saveInBackgroundWithBlock { (success: Bool, error: NSError!) -> Void in
-                    if error != nil{
-                        //ProgressHUD.showError("Network error")
-                    }
-                }
-                
-            }
-            
-        }
-        
-    }
     
     // MARK: - IBActions
     
@@ -190,7 +196,6 @@ class m8upViewController: UIViewController, SwipeViewDelegate {
             card.swipeView.swipe(SwipeView.Direction.Right)
             
         }
-      
         
     }
     

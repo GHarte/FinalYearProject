@@ -8,9 +8,12 @@
 
 import Foundation
 
+var userDefaults:NSUserDefaults = NSUserDefaults.standardUserDefaults()
+
 struct User {
     let id: String
     let name: String
+    let currentLocation: PFGeoPoint
     private let pfUser: PFUser
     
     func getPhoto(callback:(UIImage) -> ()) { //Done asynchronously - nested functions
@@ -26,7 +29,7 @@ struct User {
 
 func pfUserToUser(user: PFUser) -> User {
     
-    return User(id: user.objectId, name: user.objectForKey("firstname") as! String, pfUser: user)
+    return User(id: user.objectId, name: user.objectForKey("firstname") as! String, currentLocation: user.objectForKey("location") as! PFGeoPoint, pfUser: user)
     
 }
 
@@ -51,6 +54,19 @@ func fetchUnviewedUsers(callback: ([User]) -> ()) {
         var query = PFUser.query()
         query.whereKey("objectId", notEqualTo: PFUser.currentUser().objectId)
         query.whereKey("objectId", notContainedIn: seenIDs)
+        
+        //location test - default if NSUserDefaults not set
+        query.whereKey("location", nearGeoPoint: PFUser.currentUser().objectForKey("location") as! PFGeoPoint, withinKilometers: 5)
+        
+        if let locationPref: AnyObject = userDefaults.objectForKey("dist") {
+            query.whereKey("location", nearGeoPoint: PFUser.currentUser().objectForKey("location") as! PFGeoPoint, withinKilometers: locationPref.doubleValue)
+        }
+        
+        else {
+            //location test - default if NSUserDefaults not set
+            query.whereKey("location", nearGeoPoint: PFUser.currentUser().objectForKey("location") as! PFGeoPoint, withinKilometers: 5)
+        }
+        
         query.findObjectsInBackgroundWithBlock({
             objects, error in
             if let pfUsers = objects as? [PFUser]{

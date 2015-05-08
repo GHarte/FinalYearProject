@@ -36,6 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             //http://stackoverflow.com/questions/19962276/best-practices-for-storyboard-login-screen-handling-clearing-of-data-upon-logou
             
+            
             self.window?.rootViewController = ((UIStoryboard(name: "Main", bundle: NSBundle .mainBundle()).instantiateInitialViewController()) as! UIViewController)
         }
             
@@ -43,6 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             //http://stackoverflow.com/questions/19962276/best-practices-for-storyboard-login-screen-handling-clearing-of-data-upon-logou
             
+            //open login view controller (ViewController.swift)
             let rootController:UIViewController = ((UIStoryboard(name: "Main", bundle: NSBundle .mainBundle()).instantiateViewControllerWithIdentifier("main")) as! UIViewController)
             let navigationController:UINavigationController = (UINavigationController(rootViewController: rootController))
             navigationController.navigationBar.hidden = true
@@ -51,6 +53,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         return true
+    }
+    
+    func getCurrentLocation() {
+        PFGeoPoint.geoPointForCurrentLocationInBackground { (geoPoint: PFGeoPoint!, error: NSError!) -> Void in
+            
+            if error == nil {
+                println(geoPoint)
+                user["location"] = geoPoint
+            }
+        }
     }
     
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {

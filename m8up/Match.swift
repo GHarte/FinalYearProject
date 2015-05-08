@@ -25,7 +25,6 @@ func fetchMatches (callBack: ([Match]) -> ()) {
             let matchedUsers = matches.map({
                 (object) -> (matchID: String, userID: String)
                 in
-//                (object.objectId, object.objectForKey("toUser") as! String)
                 (object.objectForKey("matchId") as! String, object.objectForKey("toUser") as! String)
             })
             let userIDs = matchedUsers.map({$0.userID})

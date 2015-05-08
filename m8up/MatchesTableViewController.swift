@@ -15,9 +15,6 @@ class MatchesTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //Hide tab bar when opening ChatViewController
-        
-        
 
     }
     
@@ -26,11 +23,11 @@ class MatchesTableViewController: UITableViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+        //Show tab bar
         self.tabBarController?.tabBar.hidden = false
         
-        navigationItem.titleView = UIImageView(image: UIImage(named: "chat-header"))
-        let leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "nav-back-button"), style: UIBarButtonItemStyle.Plain, target: self, action: "goToPreviousVC")
-        navigationItem.setLeftBarButtonItem(leftBarButtonItem, animated: true)
+//        navigationItem.titleView = UIImageView(image: UIImage(named: "chat-header"))
+
         
         fetchMatches({
             matches in
@@ -45,9 +42,7 @@ class MatchesTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func goToPreviousVC(button: UIBarButtonItem) {
-        
-    }
+  
 
     // MARK: - Table view data source
 

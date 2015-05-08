@@ -38,10 +38,14 @@ class ViewController: UIViewController {
                     var r = result as! NSDictionary
                     user["firstname"] = r["first_name"]
                     user["gender"] = r["gender"]
-
-                    let dateFormatter = NSDateFormatter()
-                    dateFormatter.dateFormat = "MM/dd/yyyy"
-                //    user["birthday"] = dateFormatter.dateFromString(r["birthday"] as! String)
+                    
+                    //let dateFormatter = NSDateFormatter()
+                    //dateFormatter.dateFormat = "MM/dd/yyyy"
+                    
+                    //causing the app to crash if facebook birthday is hidden. Need to get user's age differently.
+                    //user["birthday"] = dateFormatter.dateFromString(r["birthday"] as! String)
+                    
+                    self.getCurrentLocation()
                     
                     let pictureURL = ((r["picture"] as! NSDictionary)["data"] as! NSDictionary) ["url"] as! String // revise
                     let url = NSURL(string: pictureURL)
@@ -56,9 +60,18 @@ class ViewController: UIViewController {
                     
                 })
                 
+                //make use of signupVC here instead?
+                let appDelegate: AppDelegate = (UIApplication.sharedApplication()).delegate as! AppDelegate
+                
+                appDelegate.window?.rootViewController = ((UIStoryboard(name: "Main", bundle: NSBundle .mainBundle()).instantiateInitialViewController()) as! UIViewController)
+                
             }
             else { //if user is logged in, send them to the first page on the tab view controller
                 println("user logged in through fb")
+                
+                self.getCurrentLocation()
+                
+                user.saveInBackgroundWithBlock(nil)
                 
                 let appDelegate: AppDelegate = (UIApplication.sharedApplication()).delegate as! AppDelegate
                 
@@ -74,6 +87,16 @@ class ViewController: UIViewController {
         
         // Do any additional setup after loading the view, typically from a nib.
         
+    }
+    
+    func getCurrentLocation() {
+        PFGeoPoint.geoPointForCurrentLocationInBackground { (geoPoint: PFGeoPoint!, error: NSError!) -> Void in
+            
+            if error == nil {
+                println(geoPoint)
+                user["location"] = geoPoint
+            }
+        }
     }
     
     override func didReceiveMemoryWarning() {
