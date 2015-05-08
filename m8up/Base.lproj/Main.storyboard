@@ -109,26 +109,6 @@
             </objects>
             <point key="canvasLocation" x="1426" y="843"/>
         </scene>
-        <!--messagesViewController-->
-        <scene sceneID="S39-Zp-Qhm">
-            <objects>
-                <viewController id="TRg-SL-yZ9" userLabel="messagesViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="6El-u3-3FE"/>
-                        <viewControllerLayoutGuide type="bottom" id="WqX-z3-SrX"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="uSD-je-yRe">
-                        <rect key="frame" x="0.0" y="64" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Messages" id="odU-MR-ege"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ebp-ee-kI6" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1965" y="843"/>
-        </scene>
         <!--areaViewController-->
         <scene sceneID="ecN-fk-kWd">
             <objects>
@@ -141,23 +121,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="oY7-go-xll">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="IHG-kP-kiR">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="IHG-kP-kiR" id="fOR-HE-lof">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="hybrid" translatesAutoresizingMaskIntoConstraints="NO" id="Zcm-wZ-y6b">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="455"/>
+                            </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Friends" id="jI8-pg-S0j"/>
+                    <navigationItem key="navigationItem" title="Friend Map" id="jI8-pg-S0j"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sfC-is-1wJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -887,11 +857,11 @@
             </objects>
             <point key="canvasLocation" x="924" y="843"/>
         </scene>
-        <!--Area-->
+        <!--Map-->
         <scene sceneID="dqe-zK-ZKX">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="r5b-M1-GEU" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Area" image="building F" id="5ZA-yO-IrY"/>
+                    <tabBarItem key="tabBarItem" title="Map" image="building F" id="5ZA-yO-IrY"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="OqG-T3-ebN">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>

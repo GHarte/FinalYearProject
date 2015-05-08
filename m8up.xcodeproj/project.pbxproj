@@ -37,6 +37,9 @@
 		7F48D5071A5D6D2400403513 /* up.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F48D5061A5D6D2400403513 /* up.png */; };
 		7F49C88A1A34DA4000C6383D /* MyTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F49C8891A34DA4000C6383D /* MyTabBarController.swift */; };
 		7F5010F11A601762003B9622 /* down.png in Resources */ = {isa = PBXBuildFile; fileRef = 7F5010F01A601762003B9622 /* down.png */; };
+		7F6B11DF1AF8D8590087A35D /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F6B11DE1AF8D8590087A35D /* libicucore.dylib */; };
+		7F6B11E11AF8D8800087A35D /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F6B11E01AF8D8800087A35D /* libc++.dylib */; };
+		7F6B11E31AF8D9010087A35D /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6B11E21AF8D9010087A35D /* Message.swift */; };
 		7F6B8B841A61DA0800DD8AC9 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6B8B831A61DA0800DD8AC9 /* SettingsViewController.swift */; };
 		7F7243E51A79227E00A5ABE6 /* DiscoveryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7243E41A79227E00A5ABE6 /* DiscoveryViewController.swift */; };
 		7F7243E71A793F3200A5ABE6 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7243E61A793F3200A5ABE6 /* EditProfileViewController.swift */; };
@@ -128,6 +131,9 @@
 		7F48D5061A5D6D2400403513 /* up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = up.png; sourceTree = "<group>"; };
 		7F49C8891A34DA4000C6383D /* MyTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyTabBarController.swift; sourceTree = "<group>"; };
 		7F5010F01A601762003B9622 /* down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = down.png; sourceTree = "<group>"; };
+		7F6B11DE1AF8D8590087A35D /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
+		7F6B11E01AF8D8800087A35D /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
+		7F6B11E21AF8D9010087A35D /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		7F6B8B831A61DA0800DD8AC9 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		7F7243E41A79227E00A5ABE6 /* DiscoveryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoveryViewController.swift; sourceTree = "<group>"; };
 		7F7243E61A793F3200A5ABE6 /* EditProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
@@ -170,6 +176,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7F6B11E11AF8D8800087A35D /* libc++.dylib in Frameworks */,
+				7F6B11DF1AF8D8590087A35D /* libicucore.dylib in Frameworks */,
 				7FF3F0991A30DFB700E2DA42 /* SystemConfiguration.framework in Frameworks */,
 				7FF3F0971A30DFA900E2DA42 /* StoreKit.framework in Frameworks */,
 				7FF3F0951A30DFA200E2DA42 /* Security.framework in Frameworks */,
@@ -309,6 +317,7 @@
 			children = (
 				7FDF4DE61AEC1E75005E6789 /* User.swift */,
 				7F09EB581AF4F75D008E55FC /* Match.swift */,
+				7F6B11E21AF8D9010087A35D /* Message.swift */,
 			);
 			name = "Data ";
 			sourceTree = "<group>";
@@ -316,6 +325,8 @@
 		7FE87DE11A338C5400F97C3D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7F6B11E01AF8D8800087A35D /* libc++.dylib */,
+				7F6B11DE1AF8D8590087A35D /* libicucore.dylib */,
 				7F0FED0F1A93E65200DDDA88 /* ParseUI.framework */,
 				7FF3F0811A30DF0600E2DA42 /* Parse.framework */,
 				7FF3F0821A30DF0600E2DA42 /* ParseFacebookUtils.framework */,
@@ -589,6 +600,7 @@
 				7F6B8B841A61DA0800DD8AC9 /* SettingsViewController.swift in Sources */,
 				7F0FED0C1A93E44F00DDDA88 /* NMRangeSlider.m in Sources */,
 				7F7243E71A793F3200A5ABE6 /* EditProfileViewController.swift in Sources */,
+				7F6B11E31AF8D9010087A35D /* Message.swift in Sources */,
 				7F0FEBBB1A93E26E00DDDA88 /* AFURLRequestSerialization.m in Sources */,
 				7F0FEBD61A93E27600DDDA88 /* UIRefreshControl+AFNetworking.m in Sources */,
 				7F0FEBD41A93E27600DDDA88 /* UIImageView+AFNetworking.m in Sources */,

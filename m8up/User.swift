@@ -82,17 +82,33 @@ func saveLike(user: User) {
     q.getFirstObjectInBackgroundWithBlock({
         object, error in
         
+        //create a unique chatroom (matchId)
+        let matchId = PFUser.currentUser()!.objectId! + "-" + user.id
+        
         var matched = false
         
         if object != nil {
             matched = true
             object.setObject("matched", forKey: "type")
+            
+            //test
+            object.setObject(matchId, forKey: "matchId")
+            object.saveInBackgroundWithBlock(nil)
+            
         }
         
         let match = PFObject(className: "Action")
         match.setObject(PFUser.currentUser().objectId, forKey: "byUser")
         match.setObject(user.id, forKey: "toUser")
-        match.setObject(matched ? "matched" : "liked", forKey: "type")
+        
+        if matched {
+            match.setObject("matched", forKey: "type")
+            match.setObject(matchId, forKey: "matchId")
+        }
+        else {
+            match.setObject("liked", forKey: "type")
+        }
+        
         match.saveInBackgroundWithBlock(nil)
         
     })

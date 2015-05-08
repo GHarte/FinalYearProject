@@ -10,7 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    //LoginViewController. Can't refactor swift.. 
+    //LoginViewController. Can't refactor swift to rename this class..
     
     @IBOutlet weak var loginCancelledLabel: UILabel!
     
@@ -41,7 +41,7 @@ class ViewController: UIViewController {
 
                     let dateFormatter = NSDateFormatter()
                     dateFormatter.dateFormat = "MM/dd/yyyy"
-                    user["birthday"] = dateFormatter.dateFromString(r["birthday"] as! String)
+                //    user["birthday"] = dateFormatter.dateFromString(r["birthday"] as! String)
                     
                     let pictureURL = ((r["picture"] as! NSDictionary)["data"] as! NSDictionary) ["url"] as! String // revise
                     let url = NSURL(string: pictureURL)
@@ -57,7 +57,7 @@ class ViewController: UIViewController {
                 })
                 
             }
-            else {
+            else { //if user is logged in, send them to the first page on the tab view controller
                 println("user logged in through fb")
                 
                 let appDelegate: AppDelegate = (UIApplication.sharedApplication()).delegate as! AppDelegate

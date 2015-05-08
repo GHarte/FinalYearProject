@@ -14,11 +14,19 @@ class MatchesTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //Hide tab bar when opening ChatViewController
+        
+        
 
     }
     
+    
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
+        self.tabBarController?.tabBar.hidden = false
         
         navigationItem.titleView = UIImageView(image: UIImage(named: "chat-header"))
         let leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "nav-back-button"), style: UIBarButtonItemStyle.Plain, target: self, action: "goToPreviousVC")
@@ -72,6 +80,15 @@ class MatchesTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        let vc = ChatViewController()
+        
+        let match = matches[indexPath.row]
+        vc.matchID = match.id
+        vc.title = match.user.name
+        
+        navigationController?.pushViewController(vc, animated: true)
+        
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
 

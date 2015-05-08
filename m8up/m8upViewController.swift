@@ -32,13 +32,6 @@ class m8upViewController: UIViewController, SwipeViewDelegate {
     
     var i = 10
     
-    var usernames = [String]()
-    var userImages = [NSData]()
-    var firstnames = [String]()
-    var currentUser = 0
-    
-    var yFromCenter: CGFloat = 0
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -62,7 +55,12 @@ class m8upViewController: UIViewController, SwipeViewDelegate {
                 self.cardStackView.insertSubview(self.backCard!.swipeView, belowSubview: self.frontCard!.swipeView)
             }
             
+            //update name label
+            self.userNameLabel.text = self.frontCard?.user.name
+            
         })
+        
+        
     
     }
     
@@ -97,6 +95,10 @@ class m8upViewController: UIViewController, SwipeViewDelegate {
             frontCard = card
             UIView.animateWithDuration(0.2, animations: {
                 self.frontCard!.swipeView.frame = self.createCardFrame(self.frontCardTopMargin)
+                
+                //update name label
+                self.userNameLabel.text = self.frontCard?.user.name
+                
             })
         }
         
@@ -127,41 +129,6 @@ class m8upViewController: UIViewController, SwipeViewDelegate {
         }
     }
     
-    
-    // MARK: - Populate User Database
-    func addDummyUser(urlString:String) {
-        
-        var newUser:PFUser = PFUser()
-        
-        let url = NSURL(string: urlString)
-        
-        let urlRequest = NSURLRequest(URL: url!)
-        
-        NSURLConnection.sendAsynchronousRequest(urlRequest, queue: NSOperationQueue.mainQueue(), completionHandler: {
-            response, data, error in
-            
-            
-            newUser["image"] = data
-            
-            newUser["gender"] = "female"
-            
-            var lat = Double(53 + self.i)
-            var lon = Double(-6 + self.i)
-            
-            self.i = self.i + 5
-            
-            var location = PFGeoPoint(latitude: lat, longitude: lon)
-            
-            newUser["location"] = location
-            
-            newUser.username = "\(self.i)"
-            newUser.password = "password"
-            
-            newUser.signUp()
-            
-        })
-    }
-    
     // MARK: - Load Users
     func loadUsersForSwipe() {
         
@@ -190,22 +157,15 @@ class m8upViewController: UIViewController, SwipeViewDelegate {
                         // Stop user from seeing themselves
                         if PFUser.currentUser().username != user.username {
                             
-                            self.usernames.append(user.username)
-                            self.userImages.append(user["image"] as! NSData)
-                            self.firstnames.append(user["firstname"] as! NSString as String)
+                            
                             
                         }
                         
                     }
                     
-                    var userPic = UIImage(data: self.userImages[0])
-                    var username = NSString(string: self.firstnames[0])
+                
                     
-                //    self.presentUserImage(userPic!, name: username)
-                    
-//                    self.swipeView.imageView.image = userPic
-//                    
-//                    self.view.addSubview(self.swipeView)
+               
                     
                 })
                 
@@ -220,85 +180,7 @@ class m8upViewController: UIViewController, SwipeViewDelegate {
         }
         
     }
-//    
-//    // MARK: - Create User Image
-//    func presentUserImage(pic: UIImage, name:NSString) {
-//        
-//        //Remove the current image from superview code moved due to bug
-//        
-//        m8ImageView = UIImageView(frame: CGRectMake(0, 0, self.view.frame.width, self.view.frame.width))
-//        m8ImageView.backgroundColor = UIColor.blackColor()
-//        m8ImageView.image = pic
-//        m8ImageView.contentMode = UIViewContentMode.ScaleAspectFit
-//        self.view.addSubview(m8ImageView)
-//        
-//        var gesture = UIPanGestureRecognizer(target: self, action: Selector("wasDragged:"))
-//        m8ImageView.addGestureRecognizer(gesture)
-//        
-//        m8ImageView.userInteractionEnabled = true
-//        
-//        userNameLabel.text = name as String
-//        
-//    }
     
-//    // MARK: - Swipe Gesture
-//    func wasDragged(gesture: UIPanGestureRecognizer) {
-//        
-//        let translation = gesture.translationInView(self.view)
-//        
-//        yFromCenter += translation.y
-//        
-//        m8ImageView.center = CGPoint(x: m8ImageView.center.x, y: m8ImageView.center.y + translation.y)
-//        
-//        gesture.setTranslation(CGPointZero, inView: self.view)
-//        
-//        var scale = min(100 / abs(yFromCenter), 10)
-//        var stretch: CGAffineTransform
-//        
-//        if (translation.y <= 0) {
-//            stretch = CGAffineTransformMakeScale(scale, scale)
-//        }
-//            
-//        else {
-//            stretch = CGAffineTransformMakeScale(2, scale)
-//        }
-//        
-//        m8ImageView.transform = stretch
-//        
-//        if gesture.state == UIGestureRecognizerState.Ended {
-//            
-//            if (m8ImageView.center.y < self.view.bounds.height / 2 ) {
-//                println("m8up")
-//                self.currentUser++
-//                m8ImageView.removeFromSuperview()
-//            }
-//            else if (m8ImageView.center.y > self.view.bounds.height / 2 ) {
-//                println("m8down")
-//                self.currentUser++
-//                m8ImageView.removeFromSuperview()
-//            }
-//            
-//            // get next user every swipe
-//            
-//            if self.currentUser < self.userImages.count {
-//                
-//                var nextUserPic: UIImage = UIImage(data: self.userImages[self.currentUser])!
-//                var nextUserName: NSString = NSString(UTF8String: self.firstnames[self.currentUser])!
-//                
-//                presentUserImage(nextUserPic, name: nextUserName)
-//                
-//                yFromCenter = 0
-//                
-//            }
-//            else {
-//                
-//                var alert = UIAlertView(title: "No One Nearby", message: "There is nobody new nearby, please try again later", delegate: self, cancelButtonTitle: "Ok")
-//                alert.show()
-//                
-//            }
-//        }
-//    }
-//    
     // MARK: - IBActions
     
     @IBAction func m8upButtonPressed(sender: UIButton) {
