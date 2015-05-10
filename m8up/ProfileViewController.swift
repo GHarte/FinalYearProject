@@ -14,18 +14,13 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var usernameLabel: UILabel!
     
     @IBOutlet weak var titleNavItem: UINavigationItem!
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        
-        
-        
-    }
+    
+    //may need to check if opening your profile or someone elses in view will appear as view did load is only used once when app is opened.
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        // Put in check to see if opening currentuser profile or someone elses
         
         var title: String
         title = currentUser()!.name
@@ -49,9 +44,7 @@ class ProfileViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func goToCards(button: UIBarButtonItem){
-        
-    }
+    
     
 
     /*

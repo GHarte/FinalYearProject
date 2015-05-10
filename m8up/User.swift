@@ -55,9 +55,6 @@ func fetchUnviewedUsers(callback: ([User]) -> ()) {
         query.whereKey("objectId", notEqualTo: PFUser.currentUser().objectId)
         query.whereKey("objectId", notContainedIn: seenIDs)
         
-        //location test - default if NSUserDefaults not set
-        query.whereKey("location", nearGeoPoint: PFUser.currentUser().objectForKey("location") as! PFGeoPoint, withinKilometers: 5)
-        
         if let locationPref: AnyObject = userDefaults.objectForKey("dist") {
             query.whereKey("location", nearGeoPoint: PFUser.currentUser().objectForKey("location") as! PFGeoPoint, withinKilometers: locationPref.doubleValue)
         }

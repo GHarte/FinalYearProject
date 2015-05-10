@@ -16,9 +16,9 @@ class ViewController: UIViewController {
     
     @IBAction func signInButton(sender: UIButton) {
         
-        var permissions = ["public_profile"]
-        
         self.loginCancelledLabel.alpha = 0
+        
+        // ****make user of user_about_me to save the user some time. //
         
         PFFacebookUtils.logInWithPermissions(["public_profile", "user_about_me", "user_birthday"], block: {
             user, error in

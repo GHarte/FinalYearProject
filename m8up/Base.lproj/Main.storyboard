@@ -80,7 +80,7 @@
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FDV-Xm-Tn8">
                                             <rect key="frame" x="91" y="30" width="221" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
@@ -335,7 +335,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f7C-F7-Gys" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2119" y="-510"/>
+            <point key="canvasLocation" x="2475" y="-570"/>
         </scene>
         <!-- Settings-->
         <scene sceneID="yXf-Ze-KL0">
@@ -616,17 +616,6 @@
             </objects>
             <point key="canvasLocation" x="2440" y="153"/>
         </scene>
-        <!--Page View Controller-->
-        <scene sceneID="xoa-qQ-Ppf">
-            <objects>
-                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="Dcf-mh-JOT" customClass="PageViewController" customModule="m8up" customModuleProvider="target" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="jix-LX-8vD"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
-                </pageViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="9OQ-an-XWd" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="896" y="-540"/>
-        </scene>
         <!--name-->
         <scene sceneID="vTa-Zh-EZp">
             <objects>
@@ -645,7 +634,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Username" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4cF-gA-3fJ">
                                 <rect key="frame" x="100" y="306" width="120" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -661,7 +650,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HFl-rn-fqu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1439" y="-510"/>
+            <point key="canvasLocation" x="1971" y="-550"/>
         </scene>
         <!--m8upViewController-->
         <scene sceneID="RLN-Gk-x8u">
@@ -774,7 +763,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="signInButton:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="MVM-Ob-Vg3"/>
+                                    <action selector="signInButton:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Fxe-9Z-CG3"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="m8up" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y1f-YF-9ey">

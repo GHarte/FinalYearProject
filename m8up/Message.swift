@@ -57,7 +57,7 @@ private func snapshotToMessage(snapshot: FDataSnapshot) -> Message {
     
 }
 
-//done asynchronously, not through the main thread
+//done asynchronously, not through the main thread as to do so would make the UI unresponsive
 func fetchMessages(matchID: String, callback: ([Message]) -> ()) {
     
     ref.childByAppendingPath(matchID).queryLimitedToFirst(25).observeSingleEventOfType(FEventType.Value, withBlock: {

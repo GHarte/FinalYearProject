@@ -12,6 +12,7 @@ extension UIImage {
     
     //http://stackoverflow.com/questions/25052729/default-tab-bar-item-colors-using-swift-xcode-6
     
+    //take the tab bar icon and return it with a different colour
     func imageWithColor(tintColor: UIColor) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale)
         
@@ -37,10 +38,13 @@ class MyTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //create the purple colour for tab bar items
         var myColour = UIColor(red: 163/255.0, green: 114/255.0, blue: 206/255.0, alpha: 1)
         
+        //set colour of tab bar item text
         UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: myColour], forState:.Selected)
         
+        //iterate through all tab bar icons and change their colour
         for item in self.tabBar.items as! [UITabBarItem] {
             if let image = item.image {
                 item.selectedImage = image.imageWithColor(myColour).imageWithRenderingMode(.AlwaysOriginal)
